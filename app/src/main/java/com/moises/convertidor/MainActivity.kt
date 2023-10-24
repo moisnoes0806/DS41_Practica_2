@@ -13,6 +13,7 @@ import android.widget.TextView
 class MainActivity : AppCompatActivity() {
     private var temperatura: String =  ""
     private var selectedOption : Int = 0
+    private var conversion : Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.button)
 
         button.setOnClickListener {
-            temperatura = temp.toString()
-
+            temperatura = temp.text.toString()
+            result.setText("La conversion es: "+ conversion(selectedOption).toString())
             conversion(selectedOption)
         }
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             option.adapter = adapter
 
             option.onItemSelectedListener = object :
-             AdapterView.OnItemSelectedListener {
+                AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                     selectedOption = position
                 }
@@ -51,27 +52,33 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun conversion(option: Int) {
+    private fun conversion(option: Int): Double {
         when (option ){
             0->{
-                // TODO Tarea: traer las formulas de fisica para convertir las temp
+                val grados = Integer.parseInt(temperatura)
+                conversion = grados * 1.8 + 32
             }
             1->{
-
+                val grados = Integer.parseInt(temperatura)
+                conversion =  grados + 273.0
             }
             2->{
-
+                val grados = Integer.parseInt(temperatura)
+                conversion = (grados - 32.0) / (5/9)
             }
             3->{
-
+                val grados = Integer.parseInt(temperatura)
+                conversion = ((grados - 32)) / (1.8) + 273.0
             }
             4->{
-
+                val grados = Integer.parseInt(temperatura)
+                conversion = grados -273.0
             }
             5->{
-
+                val grados = Integer.parseInt(temperatura)
+                conversion = (grados - 273.0) *1.8 +32.0
             }
-
         }
+        return conversion.toDouble()
     }
 }
